@@ -60,7 +60,7 @@ export async function LoadForecast() {
           <img src="./png/${icon}.png" alt="${icon}" />
           <span><strong>${item.temperature.toFixed(2)}</strong>°C</span>
           <span>PM2.5: <strong>${item.pm25.toFixed(2)}</strong> µg/m³</span>
-          <span>Rain: <strong>${rain.toFixed(2)*10}</strong>%</span>
+          <span>Rain: <strong>${rain.toFixed(1)*10}</strong>%</span>
         </div>
       `;
     } else {
