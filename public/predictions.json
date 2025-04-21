@@ -1,0 +1,34 @@
+{
+    "predictions": {
+      "2025-04-14": {
+        "temperature": 31,
+        "pm25": 42,
+        "rainChance": 25,
+        "icon": "sun"
+      },
+      "2025-04-15": {
+        "temperature": 29,
+        "pm25": 55,
+        "rainChance": 60,
+        "icon": "rain"
+      },
+      "2025-04-16": {
+        "temperature": 30,
+        "pm25": 50,
+        "rainChance": 40,
+        "icon": "cloudy"
+      },
+      "2025-04-17": {
+        "temperature": 33,
+        "pm25": 38,
+        "rainChance": 15,
+        "icon": "sun"
+      },
+      "2025-04-18": {
+        "temperature": 28,
+        "pm25": 48,
+        "rainChance": 70,
+        "icon": "rain"
+      }
+    }
+  }

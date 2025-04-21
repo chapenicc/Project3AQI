@@ -1,0 +1,91 @@
+body {
+    padding-top: 70px;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: white;
+    text-align: center;
+    margin: 0;
+  
+    min-height: 100vh;
+    box-sizing: border-box; /* Add box-sizing for body */
+    overflow-x: hidden; /* hide scroll bar horizintal */
+}
+
+.container {
+    margin-top: 70px;
+    padding: 20px;
+    justify-items: center;
+    width: 100%; /* Make container take full width */
+    box-sizing: border-box;
+}
+
+.contact-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #1e2a47;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.contact-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.contact-form {
+    display: grid;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 16px;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+.form-group input,
+.form-group textarea {
+    background-color: #0a0f1e;
+    color: white;
+    border: 1px solid #234469;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.form-group textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+.form-group button {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    width: 100px;
+}
+
+.form-group button:hover {
+    opacity: 0.8;
+}
+
+.contact-info {
+    margin-top: 30px;
+    text-align: left;
+}
+
+.contact-info p {
+    margin-bottom: 10px;
+}
+

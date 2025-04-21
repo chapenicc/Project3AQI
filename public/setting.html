@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>หน้าตั้งค่า</title>
+  <link rel="icon" href="./png/logo.png" type="image/logo">
+  <style>
+    :root {
+      --bg-main: #F1EFEC;
+      --card-bg: #D4C9BE;
+      --accent: #123458;
+      --text-main: #030303;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px;
+    }
+
+    .settings-container {
+      background-color: var(--card-bg);
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+      max-width: 600px;
+      width: 100%;
+    }
+
+    .settings-header {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      color: var(--accent);
+    }
+
+    .setting-item {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 25px;
+    }
+
+    .setting-item label {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .setting-item input,
+    .setting-item select {
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      background-color: #fff;
+    }
+
+    .save-button {
+      background-color: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 24px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .save-button:hover {
+      background-color: #0f2f40;
+    }
+  </style>
+</head>
+<body>
+  <div class="settings-container">
+    <div class="settings-header">ตั้งค่าบัญชีผู้ใช้</div>
+
+    <div class="setting-item">
+      <label for="username">ชื่อผู้ใช้</label>
+      <input type="text" id="username" placeholder="กรอกชื่อผู้ใช้ของคุณ" />
+    </div>
+
+    <div class="setting-item">
+      <label for="email">อีเมล</label>
+      <input type="email" id="email" placeholder="example@email.com" />
+    </div>
+
+    <div class="setting-item">
+      <label for="theme">ธีมสี</label>
+      <select id="theme">
+        <option>ค่าเริ่มต้น</option>
+        <option>เข้ม</option>
+        <option>สว่าง</option>
+      </select>
+    </div>
+
+    <button href="index.html" class="save-button">บันทึกการเปลี่ยนแปลง</button>
+  </div>
+</body>
+</html>

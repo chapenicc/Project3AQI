@@ -1,0 +1,904 @@
+/* index.css */
+@import url("https://fonts.googleapis.com/css?family=Raleway:400,400i,700");
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #F1EFEC;
+    color: #333;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+}
+
+.dashboard-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.sidebar {
+    flex: 0 0 auto;
+    width: 60px;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    z-index: 10;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+}
+.search-box {
+    font-size: 20px;
+    border: solid 0.3em #000000;
+    display: inline-block;
+    position: relative;
+    border-radius: 2.5em;
+}
+
+.search-box input[type="text"] {
+    font-family: Raleway, sans-serif;
+    font-weight: bold;
+    width: 2.5em;
+    height: 2.5em;
+    padding: 0.3em 2.1em 0.3em 0.4em;
+    border: none;
+    box-sizing: border-box;
+    border-radius: 2.5em;
+    transition: width 800ms cubic-bezier(0.68, -0.55, 0.27, 1.55) 150ms;
+}
+
+.search-box input[type="text"]:focus {
+    outline: none;
+}
+
+.search-box input[type="text"]:focus,
+.search-box input[type="text"]:not(:placeholder-shown) {
+    width: 18em;
+    transition: width 800ms cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.search-box input[type="text"]:focus + button[type="reset"],
+.search-box input[type="text"]:not(:placeholder-shown) + button[type="reset"] {
+    transform: rotate(-45deg) translateY(0);
+    transition: transform 150ms ease-out 800ms;
+}
+
+.search-box input[type="text"]:focus + button[type="reset"]:after,
+.search-box input[type="text"]:not(:placeholder-shown) + button[type="reset"]:after {
+    opacity: 1;
+    transition: 
+        top 150ms ease-out (800ms + 150ms),
+        right 150ms ease-out (800ms + 150ms),
+        opacity 150ms ease (800ms + 150ms);
+}
+
+.search-box button[type="reset"] {
+    background-color: transparent;
+    width: 1.4em;
+    height: 1.4em;
+    border: 0;
+    padding: 0;
+    outline: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: calc(2.5em / 2 - 1.4em / 2);
+    right: calc(2.5em / 2 - 1.4em / 2);
+    transform: rotate(-45deg) translateY(calc(2.5em - 0.3em));
+    transition: transform 150ms ease-out 150ms;
+}
+
+.search-box button[type="reset"]:before,
+.search-box button[type="reset"]:after {
+    content: "";
+    background-color: #000000;
+    width: 0.3em;
+    height: 1.4em;
+    position: absolute;
+}
+
+.search-box button[type="reset"]:after {
+    transform: rotate(90deg);
+    opacity: 0;
+    transition: transform 150ms ease-out, opacity 150ms ease-out;
+}
+.search-box img{
+    width: 15px;
+    height: 20px;
+}
+
+.main-content {
+    flex: 1;
+    flex-grow: 1;
+    padding: 20px;
+    margin-left: 60px;
+    overflow-y: auto;
+    background-color: #F1EFEC;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 10px 15px;
+    background-color: transparent;
+}
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.logo {
+    margin-bottom: 40px;
+}
+
+.logo-icon {
+    max-width: 40px;
+    max-height: 40px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #123458;
+}
+
+.logo img {
+    width: 100%;
+    height: auto;
+    max-width: 150px;
+}
+.nav-item:hover {
+    background-color: #B3C8CF;
+    color: #123458;
+}
+.nav-items {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex-grow: 1;
+}
+
+.nav-item {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #8A94A6;
+    transition: all 0.3s ease;
+}
+.user-profile {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-top: auto;
+}
+.user-profile {
+    margin-top: 0;
+}
+.user-profile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.nav-item img {
+    width: 60%;
+    height: auto;
+    max-width: 24px;
+}
+.user-avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.weather-content {
+    display: flex;
+    gap: 20px; /* Adjust the gap between the cards as needed */
+    margin-bottom: 20px;
+}
+
+.weather-card {
+    flex: 1 1 300px;
+    min-width: 300px;
+    padding: 20px;
+    border-radius: 10px;
+    background: #f8f9fa;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+.weather-bg img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.3;
+    z-index: -1;
+}
+.weather-card.main-weather {
+    background-image: url('./png/weatherwarm.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    color: white;
+    flex-basis: 60%;
+    max-width: 60%;
+}
+/* Main Weather Card */
+.main-weather {
+    grid-column: 1;
+    grid-row: 1;
+    flex: 1;
+}
+
+.weather-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    color: white;
+}
+
+.weather-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.temperature {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.temp-icon {
+    width: 60px;
+    height: 60px;
+}
+
+.temp-icon img {
+    width: 50px;
+    height: 50px;
+}
+
+.temp-value {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.sripatumlocation {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    font-size: 16px;
+    color: #ffffff;
+}
+
+.sripatumlocation img {
+    width: 20px;
+    margin-right: 10px;
+}
+.weather-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.weather-stats {
+    display: flex;
+    align-items: center;
+    gap: 80px;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.stat {
+    background-color: #B3C8CF;
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+    padding: 10px 15px; 
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    color: #123458;
+    display: flex;
+
+    justify-content: space-around;
+    font-size: 16px;
+}
+
+.stat-label {
+    font-weight: bold;
+    color: white;
+}
+
+.stat-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+}
+
+.boxinweather{
+    display: flex;
+    gap: 5px;
+}
+
+.weather-right {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.weather-map {
+    position: relative;
+    width: 100%;
+    height: 140px;
+}
+
+.weather-map img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.map-temp-marker {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: white;
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.map-location {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: white;
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: 500;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.map-container {
+    position: relative;
+    width: 800px;
+    height: 600px;
+    margin: 20px auto;
+    border: 2px solid #ccc;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    transform-origin: center center;
+  }
+
+  /* เมื่อมีคลาส .zoomed จะซูมภาพขึ้นเล็กน้อย */
+  .map-container.zoomed {
+    transform: scale(1.1);
+  }
+
+  .campus-map {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image: url('./png/Mapsripatum.png');
+    background-size: cover;
+    background-position: center;
+  }
+
+  .hotspot {
+    position: absolute;
+    cursor: pointer;
+  }
+
+  .info-box {
+    width: 800px;
+    margin: 12px auto;
+    padding: 10px;
+    background: #F1EFEC;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 1.1rem;
+    color: #123458;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+.query-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.query-response {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+    background-color: #FFF8F0;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.response-icon {
+    flex-shrink: 0;
+}
+
+.response-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #666;
+}
+
+/* Forecast Card */
+.forecast {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.forecast-day{
+    display: flex;
+    align-items: center;
+}
+.forecast-weather {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.forecast-weather img {
+    width: 30px;
+    height: 30px;
+}
+
+.forecast-temp {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+.forecast-details {
+    display: flex;
+    justify-content: space-around;
+    overflow-x: auto;
+    padding: 10px 0;
+    scroll-snap-type: x mandatory;
+}
+
+.forecast-item {
+    background-color: #f0f4f8;
+    padding: 12px;
+    gap: 20px;
+    border-radius: 16px;
+    width: 200px;
+    text-align: center;
+    flex: 0 0 auto;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    scroll-snap-align: start;
+}
+.forecast-item img {
+    margin-top: 50px;
+}
+
+.forecast-day-label {
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.weather-advice {
+    margin-top: 10px;
+    font-size: 0.75rem;
+    color: #333;
+    font-weight: bold;
+    line-height: 1.4;
+}
+.forecast-item span {
+    display: block;
+    
+}
+.valueprediction {
+    font-weight: bold;
+  }
+
+
+/* Location Weather Card */
+.location-weather {
+    grid-column: 2;
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+}
+
+.location-image {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 15px;
+}
+
+.location-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.location-details {
+    text-align: center;
+}
+
+.location-details h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 5px;
+}
+
+.location-temp {
+    font-size: 24px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 5px;
+}
+
+.location-weather-desc {
+    font-size: 14px;
+    color: white;
+}
+
+/* weather-contentb */
+
+.weather-contentb {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 0;
+    width: 100%;
+    flex-grow: 0; /* Prevent growing */
+    height: 50%; /* Set the height to 50% */
+    
+}
+ .forecast{
+    background-color: white;
+}
+
+/* css pictere-card(boxซ้ายล่าง) */
+.weatherleftbot{
+    flex: 1 1 35%;
+    padding: 20px;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    position: relative;
+    }
+    
+/* css pictere-card(boxกลางล่าง) */ 
+.weathermidbot{
+    flex: 1 1 45%;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    text-align: center;
+    margin-bottom: 5px;
+    background-color: white;
+    
+    }
+    .forecast-day {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    
+    .forecast-day h3 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .forecast-item img.weather-icon {
+        width: 64px !important;
+        height: 64px !important;
+      }
+    #forecastContainer .forecast-item img {
+    width: 64px;
+    height: auto;
+    object-fit: contain;
+    }
+    .bold-blue {
+        font-weight: bold;
+        color: #123458;
+      }
+    
+
+/* css pictere-card(boxขวาล่าง) */
+.pictere-card {
+    flex: 1 1 20%;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 5px;
+    position: relative;
+}
+.picterebg{
+    background-color: #ffffff;
+}
+
+.weather-card h3 {
+    font-size: 20px;
+    color: #333;
+}
+.pictere-leftbot {
+flex: 1 1 300px;
+flex-basis: 20%;
+background-color: white;
+padding: 20px;
+border-radius: 10px;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.leftbota img{
+    width: 100%;
+    height: auto;
+    max-width: 65px;
+}
+.leftbotafont{
+    color: white;
+}
+.bgleftbota
+{
+    background-image: url('./png/Town.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;  /* ป้องกันการซ้ำ */
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    color: white;
+    flex-basis: 60%;
+    width: 100%;  /* ขยายเต็ม container */
+    height: 100%; /* ป้องกัน background ไม่เต็ม */
+    min-height: 200px; /* ป้องกันไม่ให้ block หดเกินไป */
+}
+.leftbota{
+flex: 1;
+min-width: 300px;
+height: 65%;
+border-radius: 10px;
+background: #ffffff;
+box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);   
+margin-bottom: 20px;
+}
+
+/* กล่องซ้ายล่าง */
+.leftbotb {
+    flex: 1;
+    min-width: 200px;
+    border-radius: 10px;
+    background: #123458; /* เปลี่ยนสีพื้นหลังเป็นสีหลัก */
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    color: white;
+    overflow: hidden;
+    margin-bottom: 100px;
+    padding: 5px; /* เพิ่ม padding ด้านในเพื่อให้ดูโปร่งขึ้น */
+    text-align: center; /* จัดข้อความให้อยู่ตรงกลาง */
+  }
+  
+  .slider-container {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+    margin: 15px auto; /* เพิ่ม margin ด้านบนและล่าง */
+    height: 100px; /* ลดความสูงเพื่อให้ดูพอดีกับเนื้อหา */
+    overflow: hidden;
+    cursor: pointer; /* เปลี่ยนเคอร์เซอร์เป็นรูปมือเมื่อชี้ เพื่อบอกว่าคลิกได้ */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* เพิ่มเส้นขอบบางๆ */
+    border-radius: 5px; /* เพิ่มขอบมนเล็กน้อย */
+    background-color: rgba(255, 255, 255, 0.1); /* เพิ่มพื้นหลังโปร่งแสงเล็กน้อย */
+  }
+  
+  .slider-items {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* จัดเนื้อหาให้อยู่ตรงกลางแนวตั้ง */
+    align-items: center; /* จัดเนื้อหาให้อยู่ตรงกลางแนวนอน */
+    transition: transform 0.5s ease-in-out; /* เพิ่ม transition ให้กับการเลื่อน */
+    margin-top: 18px;
+  }
+  
+  .slider-item {
+    display: none;
+    opacity: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0; /* เพิ่ม padding บนและล่าง */
+  }
+  
+  .slider-item.active {
+    display: block;
+    opacity: 1;
+  }
+  
+  .slider-item h3 {
+    margin-top: 0; /* ลบ margin ด้านบนของหัวข้อ */
+    font-size: 1.2em; /* ปรับขนาดตัวอักษรหัวข้อ */
+    font-weight: bold;
+  }
+  
+  .slider-item span {
+    font-size: 1em; /* ปรับขนาดตัวอักษรค่า */
+  }
+  
+  /* เพิ่มสไตล์เพิ่มเติมเพื่อความสวยงาม */
+  .leftbotb::after {
+    content: "Click for more value"; /* ข้อความบอกใบ้ให้คลิก */
+    display: block;
+    font-size: 0.8em;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 10px;
+  }
+  
+  .slider-container:hover {
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3); /* เพิ่มเงาเมื่อ hover */
+    transform: scale(1.02); /* ขยายเล็กน้อยเมื่อ hover */
+    transition: all 0.3s ease-in-out;
+  }
+
+.location-leftbot{
+flex-basis: calc(33% - 10px);
+max-width: calc(33% - 10px);
+}
+.weatherrightbot{
+    flex: 1 1 300px;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-between;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    text-align: center;
+    margin-bottom: 5px;
+    background-color: white;
+    flex-shrink: 0;
+    height: auto;
+}
+
+    
+.predic-card.main-predic {
+    background-image: url('./png/weatherrainny.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;  /* ป้องกันการซ้ำ */
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    color: white;
+    flex-basis: 60%;
+    width: 100%;  /* ขยายเต็ม container */
+    height: 100%; /* ป้องกัน background ไม่เต็ม */
+    min-height: 200px; /* ป้องกันไม่ให้ block หดเกินไป */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    body {
+        display: flex;
+        flex-direction: row;
+    }
+    .weathermidbot{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        position: relative;
+        text-align: center;
+        margin-bottom: 5px;
+        background-color: white;
+        
+    }
+    .forecast-details {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        gap: 20px;
+        overflow-x: auto;
+        padding: 10px 0;
+        scroll-snap-type: x mandatory;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+    body {
+        display: flex;
+        flex-direction: row;
+    }
+    .weathermidbot{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px; /* Adjust gap between items */
+        padding: 20px;
+        align-items: center;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        position: relative;
+        text-align: center;
+        margin-bottom: 5px;
+        background-color: white;
+        
+    }
+    .forecast-details {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        gap: 20px;
+        overflow-x: auto;
+        padding: 10px 0;
+        scroll-snap-type: x mandatory;
+    }
+
+}

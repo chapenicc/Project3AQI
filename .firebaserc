@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "air-qulity-in-u"
+  },
+  "targets": {
+    "air-qulity-in-u": {
+      "functions": {
+        "aqi": [
+          "daily_prediction"
+        ]
+      }
+    }
+  }
+}

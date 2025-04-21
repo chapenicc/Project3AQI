@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>พยากรณ์อากาศ</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background: #f2f2f2;
+    }
+
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      border: none;
+      background-color: #123458;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .forecast-item {
+      background-color: white;
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <h1>🔮 พยากรณ์อากาศ</h1>
+
+  <button id="btnTomorrow">ดูพยากรณ์วันพรุ่งนี้</button>
+  <button id="btnNext5">ดูพยากรณ์ 5 วันถัดไป</button>
+
+  <div id="forecastContainer"></div>
+
+  <div class="sensor-box">CO: <span id="co">--</span></div>
+  <div class="sensor-box">CO2: <span id="co2">--</span></div>
+  <div class="sensor-box">Temperature: <span id="temp">--</span> °C</div>
+  <div class="sensor-box">PM2.5: <span id="pm2_5">--</span> µg/m³</div>
+  <div class="sensor-box">Humidity: <span id="humidity">--</span> %</div>
+
+  <!-- เรียกแค่ main.js ตัวเดียว เพราะมัน import firebase & predic ไปแล้ว -->
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
