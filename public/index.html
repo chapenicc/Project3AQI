@@ -79,17 +79,17 @@
                         <!-- ไอคอนอากาศ + อุณหภูมิ -->
                         <div class="temperature">
                             <div class="temp-icon">
-                                <img src="./png/sunny.png" alt="Sunny">
+                              <img id="mainWeatherIcon" src="./png/sunny.png" alt="weather icon" />
                             </div>
-                            <div class="temp" style="font-size: larger; font-weight: bold;"></div> °C
-                        </div>
+                            <div class="temp" id="mainTempValue">--</div> °C
+                          </div>
 
                         <!-- สถิติอากาศ -->
                         <div class="weather-stats">
                             <div class="stat" >
                                 <div class="boxinweather">
                                 <div>Temperature:</div>
-                                <div class="temp">--</div><div>°C</div>
+                                <div class="temperature">--</div><div>°C</div>
                                 </div>
                             </div>
                             <div class="stat">
@@ -182,12 +182,8 @@
                                     <span class="co2">-- ppm</span>
                                 </div>
                                 <div class="slider-item">
-                                    <h3>Wind Speed</h3>
-                                    <span class="windspeed">-- m/s</span>
-                                </div>
-                                <div class="slider-item">
                                     <h3>Temperature</h3>
-                                    <span class="temp">-- °C</span>
+                                    <span class="temperature">-- °C</span>
                                 </div>
                                 <div class="slider-item">
                                     <h3>Humidity</h3>
@@ -196,10 +192,6 @@
                                 <div class="slider-item">
                                     <h3>Air Pressure</h3>
                                     <span class="airpressure">-- hPa</span>
-                                </div>
-                                <div class="slider-item">
-                                    <h3>HCHO</h3>
-                                    <span class="hcho">-- ppm</span>
                                 </div>
                                 <div class="slider-item">
                                     <h3>PM 1.0</h3>
@@ -217,9 +209,8 @@
                         <h3>What will tomorrow be like? (prediction)</h3>
                     </div>
                     <div class="forecast-details" id="forecastContainer">
-
                         <!-- ตรงนี้ JavaScript จะเติมข้อมูลพยากรณ์แบบ Auto -->
-                    </div>
+                      </div>
                 </div>
                 <!-- Duplicate Location Weather Card -->
                 <div class="weatherrightbot">
@@ -228,7 +219,7 @@
 
                             <div class="location-details">
                                 <h3>Sripatum university</h3>
-                                <div class="temp">25°C</div>
+                                <div class="tempature">25°C</div>
                                 <div class="location-weather-desc">Mostly Rainny</div>
                             </div>
 
@@ -237,13 +228,6 @@
                                 <div><strong>CO:</strong> <span class='co'>-- </span> ppm</div>
                                 <div><strong>CO2:</strong> <span class="co2">-- </span> ppm</div>
                                 <div><strong>HCHO:</strong> <span class="hcho">--</span> ppm</div>
-                                <div><strong>PM10:</strong> <span class="pm10">-- </span> µg/m³</div>
-                                <div><strong>PM1.0:</strong> <span class="pm1_0">-- </span> µg/m³</div>
-                                <div><strong>PM2.5:</strong> <span class="pm2_5">-- </span> µg/m³</div>
-                                <div><strong>Temperature:</strong> <span class="temp">-- </span> °C</div>
-                                <div><strong>Humidity:</strong> <span class="humidity">-- </span> %</div>
-                                <div><strong>Air Pressure:</strong> <span class="airpressure">-- </span> hPa</div>
-                                <div><strong>Wind Speed:</strong> <span class="humidity">-- </span> km/h</div>
                             </div>
 
                         </div>

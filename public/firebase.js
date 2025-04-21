@@ -29,12 +29,12 @@ function FindSensors() {
     hcho: document.querySelectorAll(".hcho"),
     pm10: document.querySelectorAll(".pm10"),
     pm2_5: document.querySelectorAll(".pm2_5"),
-    pm1_0: document.querySelectorAll(".pm1_0"),
-    temp: document.querySelectorAll(".temp"),
+    temperature: document.querySelectorAll(".temperature"),
     humidity: document.querySelectorAll(".humidity"),
     airpressure: document.querySelectorAll(".airpressure"),
     windspeed: document.querySelectorAll(".windspeed"),
     rainChance: document.querySelectorAll(".rainChance"),
+    rainChance: document.querySelectorAll(".pm1"),
   };
 
   get(child(dbref, "/realtime/"))
@@ -63,7 +63,6 @@ function FindSensors() {
     }
   }
 }
-
 // ✅ Export ทุกอย่างที่จำเป็น
 export {
   firestore, // ใช้ใน predic.js

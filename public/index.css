@@ -248,18 +248,21 @@ body {
     opacity: 0.3;
     z-index: -1;
 }
+/* CSS: กำหนด background ตามแต่ละคลาส */
+
+/* ——— CSS แยกแต่ละกรณี ตามคลาส ——— */
 .weather-card.main-weather {
-    background-image: url('./png/weatherwarm.png');
+    background-image: url('./png/weatherhot.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     padding: 20px;
     color: white;
-    flex-basis: 60%;
-    max-width: 60%;
-}
+  }
+  
+  
 /* Main Weather Card */
 .main-weather {
     grid-column: 1;
@@ -281,11 +284,6 @@ body {
     justify-content: space-between;
 }
 
-.temperature {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
 
 .temp-icon {
     width: 60px;
@@ -512,6 +510,9 @@ body {
     flex: 0 0 auto;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     scroll-snap-align: start;
+}
+.forecast-item strong{
+    color: #123458;
 }
 .forecast-item img {
     margin-top: 50px;

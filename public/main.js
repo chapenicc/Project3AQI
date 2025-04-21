@@ -1,6 +1,12 @@
 import { getNext5DaysForecast, generateAdvice } from './predic.js';
 import { FindSensors } from './firebase.js';
 
+// ใส่ไว้ข้างบนสุดของไฟล์ main.js
+/**
+ * เปลี่ยนพื้นหลังของกล่อง main-weather ตามอุณหภูมิและโอกาสฝน
+ * @param {{temperature: number, rainChance: number}} param0
+ */
+
 document.addEventListener('DOMContentLoaded', () => {
   const mapContainer = document.getElementById('mapContainer');
   const campusMap    = document.getElementById('campusMap');
@@ -9,21 +15,20 @@ document.addEventListener('DOMContentLoaded', () => {
   // เพิ่ม listener ให้ทุก hotspot
   document.querySelectorAll('.hotspot').forEach(hot => {
     hot.addEventListener('click', e => {
-      // อัปเดตกล่องข้อมูล
-      const { name, info } = hot.dataset;
-      infoBox.textContent = `${name} เป็น ${info}`;
+      // แสดงข้อมูล
+      infoBox.textContent = `${hot.dataset.name}: ${hot.dataset.info}`;
+      infoBox.hidden = false;
 
-      // คำนวณจุดคลิกบนแมพ
-      const rect   = mapContainer.getBoundingClientRect();
-      const clickX = e.clientX - rect.left;
-      const clickY = e.clientY - rect.top;
-      campusMap.style.transformOrigin = `${clickX}px ${clickY}px`;
+      // วางตำแหน่ง infoBox
+      const rect = mapContainer.getBoundingClientRect();
+      infoBox.style.transform =
+        `translate(${e.clientX - rect.left}px, ${e.clientY - rect.top}px)`;
 
-      // ซูมเข้าเล็กน้อย
+      // ซูมที่จุดคลิก
+      const x = e.clientX - rect.left, y = e.clientY - rect.top;
+      campusMap.style.transformOrigin = `${x}px ${y}px`;
       campusMap.classList.add('zoomed');
-      setTimeout(() => {
-        campusMap.classList.remove('zoomed');
-      }, 600);
+      setTimeout(() => campusMap.classList.remove('zoomed'), 600);
     });
   });
 });
@@ -32,6 +37,44 @@ function getDayLabel(dateString) {
   const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
   const date = new Date(dateString);
   return days[date.getDay()];
+}
+
+
+export async function LoadForecast() {
+  const fc = document.getElementById("forecastContainer");
+  if (!fc) return;
+
+  const data = await getNext5DaysForecast();
+
+  fc.innerHTML = ""; // ล้างก่อนแสดงใหม่
+
+  data.forEach(entry => {
+    const item = entry.forecast;
+    const dayLabel = getDayLabel(entry.date);
+    if (item) {
+      const icon = item.icon || pickIcon(item);
+      const rain = item.rainChance ?? item.rainchance ?? 0;
+      fc.innerHTML += `
+        <div class="forecast-item">
+          <span><strong>${dayLabel}</strong></span>
+          <img src="./png/${icon}.png" alt="${icon}" />
+          <span><strong>${item.temperature.toFixed(2)}</strong>°C</span>
+          <span>PM2.5: <strong>${item.pm25.toFixed(2)}</strong> µg/m³</span>
+          <span>Rain: <strong>${rain.toFixed(2)*10}</strong>%</span>
+        </div>
+      `;
+    } else {
+      fc.innerHTML += `
+        <div class="forecast-item">
+          <span>${dayLabel}</span>
+          <img src="./png/unknown.png" alt="No Data" />
+          <span>--°C</span>
+          <span>-- µg/m³</span>
+          <span>--%</span>
+        </div>
+      `;
+    }
+  });
 }
 
 
@@ -54,132 +97,37 @@ function pickIcon(item) {
     return "sunny";                       // ปกติ
   }
   
-  
-function startSensorSlider(intervalMs = 3000) {
-const sliderItems = document.querySelectorAll('.slider-item');
-if (sliderItems.length === 0) return;
-  
-    let currentIndex = 0;
-  
+  //slider//
+  function startSensorSlider(ms = 3000) {
+    const items = document.querySelectorAll('.slider-item');
+    if (!items.length) return;
+    let idx = 0;
     setInterval(() => {
-      // ลบ active ทั้งหมดก่อน
-      sliderItems.forEach(item => item.classList.remove('active'));
-  
-      // เพิ่ม active ให้ตัวใหม่
-      currentIndex = (currentIndex + 1) % sliderItems.length;
-      sliderItems[currentIndex].classList.add('active');
-    }, intervalMs);
+      items.forEach(i=>i.classList.remove('active'));
+      idx = (idx+1)%items.length;
+      items[idx].classList.add('active');
+    }, ms);
   }
 
-export async function LoadForecast() {
-  const forecastContainer = document.getElementById("forecastContainer");
-  if (!forecastContainer) return;
+// การเปลี่ยนค่าเมื่อคลิก
+const slider = document.getElementById('slider');
+const items = slider.querySelectorAll('.slider-item');
+let currentIndex = 0;
+    // เพิ่ม event listener สำหรับการคลิก
+    slider.addEventListener('click', () => {
+      // ลบ active จากไอเท็มเดิม
+      items[currentIndex].classList.remove('active');
 
-  const data = await getNext5DaysForecast();
-  forecastContainer.innerHTML = "";
+      // หาตำแหน่งไอเท็มถัดไป
+      currentIndex = (currentIndex + 1) % items.length;
 
-  data.forEach(entry => {
-    const dateKey = entry.date;
-    const dayLabel = getDayLabel(dateKey);
-    const item = entry.forecast;
-
-    if (item) {
-        console.log("🧪 item ที่จะใช้ pickIcon:", item);
-        const iconName = item.icon || pickIcon(item);
-        const iconSrc = `./png/${iconName}.png`;
-        const advice = generateAdvice(item);
-        const rainDisplay = formatNumber(item.rainChance * 10);
-
-        forecastContainer.innerHTML += `
-        <div class="forecast-item">
-          <span><strong class="bold-blue">${dayLabel}</strong></span>
-          <img src="${iconSrc}" alt="Weather Icon">
-          <span><strong class="bold-blue">${formatNumber(item.temperature)}</strong>°C</span>
-          <span>
-            PM2.5: <strong class="bold-blue">${formatNumber(item.pm25)}</strong> µg/m³
-          </span>
-          <span>
-            โอกาสที่ฝนจะตก: <strong class="bold-blue">${rainDisplay}</strong>%
-          </span>
-          <div class="weather-advice">${advice}</div>
-        </div>
-`;console.log("🧪 Forecast item:", item);
-    } else {
-      forecastContainer.innerHTML += `
-        <div class="forecast-item">
-          <span>${dayLabel}</span>
-          <img src="./png/unknown.png" alt="No Data">
-          <span>Temp: --°C</span>
-          <span>PM2.5: -- µg/m³</span>
-          <span>Rain: --%</span>
-          <div class="weather-advice">⚠️ ไม่มีข้อมูลพยากรณ์</div>
-        </div>
-      `;
-    }
+      // เพิ่ม active ให้กับไอเท็มถัดไป
+      items[currentIndex].classList.add('active');
   });
-}
-
-let tempChart = null;
-
-function renderTemperatureChart() {
-  const ctx = document.getElementById('temperatureChart').getContext('2d');
-
-  const data = {
-    labels: [],
-    datasets: [{
-      label: "Temperature (°C)",
-      borderColor: "rgba(255,99,132,1)",
-      backgroundColor: "rgba(255,99,132,0.2)",
-      data: [],
-      tension: 0.3
-    }]
-  };
-
-  tempChart = new Chart(ctx, {
-    type: 'line',
-    data: data,
-    options: {
-      responsive: true,
-      animation: false,
-      scales: {
-        x: {
-          title: { display: true, text: 'Time' }
-        },
-        y: {
-          title: { display: true, text: 'Temperature (°C)' }
-        }
-      }
-    }
-  });
-}
-
-function startRealtimeTemp() {
-  const realtimeRef = ref(db, "/realtime/temp");
-
-  onValue(realtimeRef, (snapshot) => {
-    const tempValue = snapshot.val();
-    const timeLabel = new Date().toLocaleTimeString();
-
-    if (tempChart) {
-      const chartData = tempChart.data;
-      chartData.labels.push(timeLabel);
-      chartData.datasets[0].data.push(tempValue ?? 0);
-
-      // จำกัดข้อมูลไม่เกิน 20 จุด
-      if (chartData.labels.length > 20) {
-        chartData.labels.shift();
-        chartData.datasets[0].data.shift();
-      }
-
-      tempChart.update();
-    }
-  });
-}
 
 window.onload = () => {
     FindSensors();
     LoadForecast();
-    renderTemperatureChart();   // ⬅️ สร้างกราฟ
     startRealtimeTemp();        // ⬅️ ฟังข้อมูลอุณหภูมิ
     startSensorSlider();        // (ถ้ามี slider)
   };
