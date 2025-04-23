@@ -584,6 +584,7 @@ body {
     color: white;
 }
 
+
 /* weather-contentb */
 
 .weather-contentb {
@@ -813,20 +814,74 @@ max-width: calc(33% - 10px);
 }
 
     
-.predic-card.main-predic {
+/* .predic-card.main-predic {
     background-image: url('./png/weatherrainny.png');
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;  /* ป้องกันการซ้ำ */
+    background-repeat: no-repeat;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     padding: 20px;
     color: white;
     flex-basis: 60%;
-    width: 100%;  /* ขยายเต็ม container */
-    height: 100%; /* ป้องกัน background ไม่เต็ม */
-    min-height: 200px; /* ป้องกันไม่ให้ block หดเกินไป */
+    width: 100%;  
+    height: 100%; 
+    min-height: 200px; 
+} */
+
+/* ตั้งค่าพื้นฐานของการ์ด */
+.predictext {
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 10px;
 }
+.predic-card.main-predic {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    color: white;
+    flex-basis: 60%;
+    width: 100%;  
+    height: 100%; 
+    min-height: 200px; 
+    transition: background-image 0.5s ease;
+  }
+  
+  /* ภาพพื้นหลังสำหรับแต่ละสถานะ */
+.predic-card.main-predic.sunny {
+    background-image: url('./png/weatherhot.png');
+    background-color: #fceabb;   /* สีสำรอง */
+  }
+  .predic-card.main-predic.cloudy {
+    background-image: url('./png/weathercloudy.png');
+    background-color: #d3d3d3;
+  }
+  .predic-card.main-predic.rainy {
+    background-image: url('./png/weatherrainny.png');
+    background-color: #a3c4f3;
+  }
+  .predic-card.main-predic.hot {
+    background-image: url('./png/weatherhot.png');
+    background-color: #ff7e67;
+  }
+  
+  /* (ถ้าต้องการปรับสีตัวหนังสือในแต่ละสถานะ) */
+  .predic-card.main-predic.sunny .location-details h3 {
+    color: #333;
+  }
+  .predic-card.main-predic.rainy .location-details h3 {
+    color: #fff;
+  }
+  .tomorrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 100px;
+  }
 
 @keyframes fadeIn {
     from {
@@ -840,10 +895,50 @@ max-width: calc(33% - 10px);
 }
 
 /* Media Queries for Responsiveness */
+@media (min-width: 1024px) {
+
+    .weather-content {
+        display: flex;
+        flex-direction: row;
+        gap: 5px; /* Adjust gap between items */
+    }
+    .weather-stats{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 150px;
+        gap: 10px; /* Adjust gap between items */
+    }
+    .dashboard-container {
+      grid-template-columns: 200px 1fr; /* ย่อตัว Sidebar ลงเล็กน้อย */
+    }
+  }
+/* --- Tablet (≤1024px) --- */
+@media (max-width: 1024px) {
+    .weather-content {
+        display: flex;
+        flex-direction: row;
+        gap: 5px; /* Adjust gap between items */
+    }
+    .weather-stats{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px; /* Adjust gap between items */
+    }
+    .dashboard-container {
+      grid-template-columns: 200px 1fr; /* ย่อตัว Sidebar ลงเล็กน้อย */
+    }
+  }
+
 @media (max-width: 768px) {
     body {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
+    }
+    .weather-content {
+        flex-direction: column;
+        gap: 5px; /* Adjust gap between items */
     }
     .weathermidbot{
         display: flex;
@@ -876,6 +971,7 @@ max-width: calc(33% - 10px);
         display: flex;
         flex-direction: row;
     }
+    
     .weathermidbot{
         display: flex;
         flex-direction: column;

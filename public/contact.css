@@ -1,28 +1,30 @@
 body {
     padding-top: 70px;
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    color: white;
+    /* พื้นหลังไล่โทนเข้ม–เข้ม */
+    background: linear-gradient(135deg, #030303, #123458);
+    color: #F1EFEC;         /* ตัวหนังสือหลักอ่อน */
     text-align: center;
     margin: 0;
-  
     min-height: 100vh;
-    box-sizing: border-box; /* Add box-sizing for body */
-    overflow-x: hidden; /* hide scroll bar horizintal */
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 .container {
     margin-top: 70px;
     padding: 20px;
     justify-items: center;
-    width: 100%; /* Make container take full width */
+    width: 100%;
     box-sizing: border-box;
 }
 
 .contact-container {
     max-width: 800px;
     margin: 0 auto;
-    background-color: #1e2a47 ;
+    /* กล่องกลางสีอ่อน–กลาง */
+    background-color: #D4C9BE;
+    color: #030303;         /* ตัวหนังสือในกล่องเป็นดำ */
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -47,13 +49,14 @@ body {
     font-size: 16px;
     margin-bottom: 5px;
     text-align: left;
+    color: #030303;        /* ป้ายชื่อเป็นดำ */
 }
 
 .form-group input,
 .form-group textarea {
-    background-color: #0a0f1e;
-    color: white;
-    border: 1px solid #234469;
+    background-color: #F1EFEC; /* พื้นหลังช่องกรอกเป็นอ่อนที่สุด */
+    color: #030303;            /* ตัวหนังสือดำ */
+    border: 1px solid #123458; /* เส้นขอบเข้ม */
     padding: 10px;
     border-radius: 8px;
     font-size: 16px;
@@ -65,8 +68,8 @@ body {
 }
 
 .form-group button {
-    background-color: #4a90e2;
-    color: white;
+    background-color: #123458; /* ปุ่มหลักเข้ม */
+    color: #F1EFEC;            /* ตัวหนังสือปุ่มอ่อน */
     border: none;
     padding: 10px 15px;
     border-radius: 8px;
@@ -77,7 +80,8 @@ body {
 }
 
 .form-group button:hover {
-    opacity: 0.8;
+    /* สว่างขึ้นเล็กน้อยเมื่อชี้ */
+    background-color: #1a4476;
 }
 
 .contact-info {
@@ -87,5 +91,5 @@ body {
 
 .contact-info p {
     margin-bottom: 10px;
+    color: #F1EFEC;  /* ข้อความเสริมเป็นตัวอ่อนบนพื้นสีเข้ม */
 }
-

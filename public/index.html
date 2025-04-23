@@ -77,12 +77,7 @@
                     <div class="weather-details">
 
                         <!-- ไอคอนอากาศ + อุณหภูมิ -->
-                        <div class="temperature">
-                            <div class="temp-icon">
-                                <img id="mainWeatherIcon" src="./png/sunny.png" alt="weather icon" />
-                            </div>
-                            <div class="temp" id="mainTempValue">--</div> °C
-                        </div>
+                       
 
                         <!-- สถิติอากาศ -->
                         <div class="weather-stats">
@@ -90,7 +85,6 @@
                                 <div class="boxinweather">
                                     <div>Temperature:</div>
                                     <div class="temperature">--</div>
-                                    <div>°C</div>
                                 </div>
                             </div>
                             <div class="stat">
@@ -98,7 +92,6 @@
                                 <div class="boxinweather">
                                     <div>Rainchance:</div>
                                     <div class="rainChance">--</div>
-                                    <div>%</div>
                                 </div>
                             </div>
                         </div>
@@ -110,30 +103,6 @@
                 <div class="map-container" id="mapContainer">
                     <div class="campus-map">
 
-                        <!-- 1.) ตึกผู้บริหาร+โค้งกลาง -->
-                        <div class="hotspot" style="top: 10%; left: 15%; width:40%; height:35%;"
-                            data-name="ตึกผู้บริหาร" data-info="อาคารสำนักงานและบริเวณโค้งหน้าอาคารหลัก">
-                        </div>
-
-                        <!-- 2.) ตึกหอประชุม -->
-                        <div class="hotspot" style="top:30%; left:45%; width:12%; height:18%;" data-name="ตึกหอประชุม"
-                            data-info="หอประชุมและจัดกิจกรรม">
-                        </div>
-
-                        <!-- 3.) ตึกเรียน B -->
-                        <div class="hotspot" style="top:10%; left:65%; width:25%; height:30%;" data-name="ตึกเรียน B"
-                            data-info="อาคารเรียนหลักของคณะต่างๆ">
-                        </div>
-
-                        <!-- 4.) ตึกบริการ -->
-                        <div class="hotspot" style="top:50%; left:75%; width:15%; height:25%;" data-name="ตึกบริการ"
-                            data-info="ร้านกาแฟและร้านอาหาร">
-                        </div>
-
-                        <!-- 5.) ลานจอดรถ -->
-                        <div class="hotspot" style="top:65%; left:20%; width:50%; height:20%;" data-name="ลานจอดรถ"
-                            data-info="พื้นที่จอดรถสำหรับนักศึกษาและบุคลากร">
-                        </div>
                     </div>
                 </div>
             </div>
@@ -185,10 +154,6 @@
                                     <h3>Air Pressure</h3>
                                     <span class="airpressure">-- hPa</span>
                                 </div>
-                                <div class="slider-item">
-                                    <h3>PM 1.0</h3>
-                                    <span class="pm1_0">-- µg/m³</span>
-                                </div>
 
                             </div>
                         </div>
@@ -212,16 +177,17 @@
                         <div class="location-card">
 
                             <div class="location-details">
-                                <h3>Sripatum university</h3>
-                                <div class="tempature">25°C</div>
-                                <div class="location-weather-desc" id="weather-desc">Rainny</div>
+                                <div class="sripatumlocation">
+                                    <h3 style="color: white;"><img src="./png/location.png" alt="">Sripatum university</h3>
+                                </div>
                             </div>
 
                             <!-- ตัวอย่าง แสดงค่าต่างๆ จาก Firebase -->
-                            <div class="sensor-data">
-                                <div><strong>CO:</strong> <span class='co'>-- </span> ppm</div>
-                                <div><strong>CO2:</strong> <span class="co2">-- </span> ppm</div>
-                                <div><strong>HCHO:</strong> <span class="hcho">--</span> ppm</div>
+                            <div class="tomorrow">
+                                <h3>Tomorrow</h3>
+                                <div><strong>Temperature:</strong> <span class='temperature-tomorrow'>-- </span> °C</div>
+                                <div><strong>PM2.5:</strong> <span class='pm25-tomorrow'>-- </span> ppm</div>
+                                <div><strong>Rainchance</strong>:</strong> <span class='rainChance-tomorrow'>-- </span> %</div>
                             </div>
 
                         </div>
@@ -231,47 +197,6 @@
         </div>
     </div>
     <script type="module" src="main.js"></script>
-
-    <script>
-        const apiKey = 'c9f49d11092f7f27cba7c652fa95586f'; // ใส่ API key ตรงนี้
-        const url = `https://api.openweathermap.org/data/2.5/weather?q=Bang Khen,TH&appid=${apiKey}&units=metric`;
-
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                let rainChance = 0;
-
-                // OpenWeather ไม่มี rain % ตรงๆ ต้องใช้ความน่าจะเป็นจาก cloudiness
-                if (data.clouds && data.clouds.all) {
-                    rainChance = data.clouds.all; // หรือจะประเมินจาก data.weather[0].main ก็ได้
-                }
-
-                document.querySelector('.rainChance').textContent = rainChance;
-            })
-            .catch(error => {
-                console.error('Error fetching rain chance:', error);
-            });
-
-        function updateBackground() {
-            const weatherDesc = document.getElementById("weather-desc").innerText; // ดึงสถานะจาก weather-desc
-            const weatherContainer = document.getElementById("main-predic"); // เลือก div เป้าหมาย
-
-            // ล้างคลาสเก่าทั้งหมด
-            weatherContainer.classList.remove("sunny", "rainny", "mostly-rainny");
-
-            // เพิ่มคลาสตามสถานะ
-            if (weatherDesc === "Sunny") {
-                weatherContainer.classList.add("sunny");
-            } else if (weatherDesc === "Rainny") {
-                weatherContainer.classList.add("rainny");
-            }
-        }
-
-        // เรียกฟังก์ชันเมื่อโหลดหน้า
-        updateBackground();
-
-
-    </script>
 
 </body>
 

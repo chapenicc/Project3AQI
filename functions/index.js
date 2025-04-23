@@ -1,70 +1,75 @@
+// functions/index.js
+
 const { onSchedule } = require('firebase-functions/v2/scheduler');
-const admin = require('firebase-admin');
-const fetch = require('node-fetch');
+const admin        = require('firebase-admin');
+const fetch        = require('node-fetch');
 
 admin.initializeApp();
-const db = admin.firestore();
-
-const API_KEY = process.env.OPENWEATHER_API_KEY || 'e5d06f804986aee2b7fbef62dd81435d';
+const db  = admin.firestore();
 const LAT = 13.85527;
 const LON = 100.58532;
 
-function getDateDaysAhead(days) {
-  const date = new Date();
-  date.setDate(date.getDate() + days);
-  return date.toISOString().split('T')[0];
+// ใส่ API key ของคุณตรงนี้เลย
+const API_KEY = "e5d06f804986aee2b7fbef62dd81435d";
+
+/**
+ * ดึงข้อมูลสภาพอากาศ 5 วันถัดไปจาก One Call API (รวม rainChance)
+ */
+async function get5DayWeatherData() {
+  const url = `https://api.openweathermap.org/data/2.5/onecall`
+    + `?lat=${LAT}&lon=${LON}`
+    + `&exclude=current,minutely,hourly,alerts`
+    + `&appid=${API_KEY}`
+    + `&units=metric`;
+
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`OpenWeather API error: ${res.status}`);
+  const { daily } = await res.json();
+
+  return daily.slice(1, 6).reduce((acc, day) => {
+    const date = new Date(day.dt * 1000)
+      .toLocaleDateString('en-CA', { timeZone: 'Asia/Bangkok' });
+
+    acc[date] = {
+      temperature: day.temp.day,
+      feelsLike:   day.feels_like.day,
+      humidity:    day.humidity,
+      windSpeed:   day.wind_speed,
+      description: day.weather?.[0]?.description || null,
+      // เพิ่ม rainChance
+      rainChance: Math.round((day.pop || 0) * 100)
+    };
+    return acc;
+  }, {});
 }
 
-// 🔹 ดึง rainChance จาก OpenWeather
-async function get5DayRainChance() {
-  const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${LAT}&lon=${LON}&appid=${API_KEY}&units=metric`;
-  const response = await fetch(url);
+exports.saveRainChanceForecast = onSchedule(
+  'every day 06:00',
+  { timeZone: 'Asia/Bangkok' },
+  async () => {
+    try {
+      console.log('⏳ Fetching weather + rainChance…');
+      const forecast = await get5DayWeatherData();
+      console.log('🔍 Dates:', Object.keys(forecast));
 
-  if (!response.ok) throw new Error(`🌩️ OpenWeather API error: ${response.status}`);
-  const data = await response.json();
-
-  const rainMap = {};
-
-  for (const item of data.list) {
-    const date = item.dt_txt.substring(0, 10);
-    const pop = item.pop ?? 0;
-
-    if (!rainMap[date]) rainMap[date] = [];
-    rainMap[date].push(pop);
-  }
-
-  const result = {};
-  for (const [date, pops] of Object.entries(rainMap)) {
-    const avg = pops.reduce((a, b) => a + b, 0) / pops.length;
-    result[date] = Math.round(avg * 100);
-  }
-
-  return result;
-}
-
-// 🔹 Cloud Function: เก็บ rainChance เฉพาะ 5 วันถัดจากนี้
-exports.saveRainChanceForecast = onSchedule('every day 06:00', { timeZone: 'Asia/Bangkok' }, async () => {
-  try {
-    const forecast = await get5DayRainChance();
-    const batch = db.batch();
-
-    const daysToSave = [1, 2, 3, 4, 5].map(getDateDaysAhead);
-
-    for (const date of daysToSave) {
-      const chance = forecast[date];
-      if (chance === undefined) {
-        console.log(`⚠️ No data for ${date}`);
-        continue;
+      const batch = db.batch();
+      for (const [date, data] of Object.entries(forecast)) {
+        const ref = db.collection('forecast_data').doc(date);
+        batch.set(ref, data, { merge: true });
+        console.log(`📦 ${date}:`, data);
       }
-
-      const docRef = db.collection('forecast_data').doc(date);
-      batch.set(docRef, { rainChance: chance }, { merge: true });
-      console.log(`📦 Saved ${date}: ${chance}%`);
+      await batch.commit();
+      console.log('✅ forecast_data saved');
+    } catch (e) {
+      console.error('❌ saveRainChanceForecast failed:', e);
     }
-
-    await batch.commit();
-    console.log('🎉 RainChance forecast saved successfully!');
-  } catch (error) {
-    console.error('❌ Forecast saving failed:', error.message);
   }
-});
+);
+
+exports.saveWeatherForecast = onSchedule(
+  'every day 06:10',
+  { timeZone: 'Asia/Bangkok' },
+  async () => {
+    // … โค้ดเดิมของ saveWeatherForecast …
+  }
+);
