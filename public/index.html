@@ -5,12 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Air quality in university</title>
-    <link rel="icon" href="./png/logo.png" type="image/logo">
+    <link rel="icon" href="./png/logo.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./index.css">
-
 </head>
 
 <body>
@@ -18,11 +17,9 @@
         <!-- Left Sidebar -->
         <div class="sidebar">
             <!-- logo Sidebar -->
-
             <div class="logo">
                 <a href="index.html" class="logo-icon">
                     <img src="./png/logo.png" alt="Weather logo">
-
                 </a>
             </div>
 
@@ -40,163 +37,155 @@
 
         <!-- Main Content -->
         <div class="main-content">
-            <!-- Header -->
-            <header class="header">
-                <div class="user-info">
-                    <div class="user-avatar">
-                        <img src="./png/avartar.jpg" alt="User Avatar">
+            <div class="main-left">
+                <!-- Header -->
+                <header class="header">
+                    <div class="user-info">
+                        <div class="user-avatar">
+                            <img src="./png/avartar.jpg" alt="User Avatar">
+                        </div>
+                        <div class="user-name">Meaw Meaw</div>
                     </div>
-                    <div class="user-name">Meaw Meaw</div>
-                </div>
-                <div class="header-right">
-                    <div class="search-box">
-                        <input type="text" placeholder="Search..." />
-                        <button type="reset"></button>
+                    <div class="header-right">
+                        <div class="search-box">
+                            <input type="text" placeholder="Search...">
+                            <button type="reset">Clear</button>
+                        </div>
                     </div>
-
-
-                </div>
-            </header>
-            <!-- Weather Widgets -->
-            <div class="weather-content">
-
-                <!-- Weather Card -->
-                <div class="weather-card main-weather">
-
-
-                    <div class="sripatumlocation">
-                        <h3 style="color: white;"><img src="./png/location.png" alt="">Sripatum university</h3>
-                    </div>
-
-                    <!-- ส่วนหัว -->
-                    <div class="weather-header">
-                        <h2>Weather</h2>
-                    </div>
-
-                    <!-- รายละเอียดอากาศ -->
-                    <div class="weather-details">
-
-                        <!-- ไอคอนอากาศ + อุณหภูมิ -->
-                       
-
-                        <!-- สถิติอากาศ -->
-                        <div class="weather-stats">
-                            <div class="stat">
-                                <div class="boxinweather">
-                                    <div>Temperature:</div>
-                                    <div class="temperature">--</div>
+                </header>
+                <!-- Weather Widgets -->
+                <div class="weather-content">
+                    <!-- Weather Card -->
+                    <div class="weather-card">
+                        <!-- Header -->
+                        <div class="sripatumlocation">
+                            <h3 style="color: white;"><img src="./png/location.png" alt="location-icon">Sripatum
+                                university
+                            </h3>
+                        </div>
+                        <div class="weather-header">
+                            <h2>Weather</h2>
+                        </div>
+                        <!-- รายละเอียดอากาศ -->
+                        <div class="weather-details">
+                            <!-- Weather Stats -->
+                            <div class="weather-stats">
+                                <div class="stat">
+                                    <div class="boxinweather">
+                                        <div>Temperature:</div>
+                                        <div class="temperature">--</div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="stat">
-
-                                <div class="boxinweather">
-                                    <div>Rainchance:</div>
-                                    <div class="rainChance">--</div>
+                                <div class="stat">
+                                    <div class="boxinweather">
+                                        <div>Rainchance:</div>
+                                        <div class="rainChance">--</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
-                </div>
-
-                <div class="map-container" id="mapContainer">
-                    <div class="campus-map">
-
+                    <div class="map-container" id="mapContainer">
+                        <div class="graph">
+                            <div class="chart-buttons">
+                                <button id="btnTemp">Temperature</button>
+                                <button id="btnPM25">PM2.5</button>
+                              </div>
+                              <canvas id="mainChart"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- weather-contentb -->
 
-            <div class="weather-contentb ">
-
-                <!-- Location Weather Card -->
-                <div class="weatherleftbot pictere-leftbot ">
-
-                    <div class="leftbota">
-                        <div class="bgleftbota">
-                            <p><br> </p>
-                            <h3>Air Quality Builing 5</h3>
-                        </div>
-                    </div>
-
-                    <div class="leftbotb">
-                        <div class="slider-container" id="slider">
-                            <div class="slider-header">
-                                <h2>ขณะนี้</h2>
-                            </div>
-                            <div class="slider-items">
-                                <div class="slider-item active">
-                                    <h3>PM 2.5 </h3>
-                                    <span class="pm2_5">-- µg/m³</span>
-                                </div>
-                                <div class="slider-item">
-                                    <h3>PM 10 </h3>
-                                    <span class="pm10">-- µg/m³</span>
-                                </div>
-                                <div class="slider-item">
-                                    <h3>CO </h3>
-                                    <span class="co">-- ppm</span>
-                                </div>
-                                <div class="slider-item">
-                                    <h3>CO2</h3>
-                                    <span class="co2">-- ppm</span>
-                                </div>
-                                <div class="slider-item">
-                                    <h3>Temperature</h3>
-                                    <span class="temperature">-- °C</span>
-                                </div>
-                                <div class="slider-item">
-                                    <h3>Humidity</h3>
-                                    <span class="humidity">-- %</span>
-                                </div>
-                                <div class="slider-item">
-                                    <h3>Air Pressure</h3>
-                                    <span class="airpressure">-- hPa</span>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Forecast Card -->
-
-                <div class="weathermidbot">
-
-                    <div class="forecast-day" style="display: flex; justify-content: center; align-items: center;">
-                        <h3>What will tomorrow be like? (prediction)</h3>
-                    </div>
-                    <div class="forecast-details" id="forecastContainer">
-                        <!-- ตรงนี้ JavaScript จะเติมข้อมูลพยากรณ์แบบ Auto -->
-                    </div>
-                </div>
-                <!-- Duplicate Location Weather Card -->
-                <div class="weatherrightbot">
-
-                    <div class="predic-card main-predic" id="main-predic">
-                        <div class="location-card">
-
-                            <div class="location-details">
-                                <div class="sripatumlocation">
-                                    <h3 style="color: white;"><img src="./png/location.png" alt="">Sripatum university</h3>
-                                </div>
-                            </div>
-
-                            <!-- ตัวอย่าง แสดงค่าต่างๆ จาก Firebase -->
-                            <div class="tomorrow">
-                                <h3>Tomorrow</h3>
-                                <div><strong>Temperature:</strong> <span class='temperature-tomorrow'>-- </span> °C</div>
-                                <div><strong>PM2.5:</strong> <span class='pm25-tomorrow'>-- </span> ppm</div>
-                                <div><strong>Rainchance</strong>:</strong> <span class='rainChance-tomorrow'>-- </span> %</div>
+            <div class="main-right">
+                <!-- Weather Content Bottom -->
+                <div class="weather-content">
+                    <!-- Air Quality -->
+                    <div class="weatherleftbot pictere-leftbot">
+                        <div class="leftbota">
+                            <div class="background-text-building">
+                                <h3 class="text-building">Building 5</h3>
                             </div>
 
                         </div>
+                        <div class="leftbotb">
+                            <div class="slider-container" id="slider">
+                                <div class="slider-header">
+                                    <h2>ขณะนี้</h2>
+                                </div>
+                                <div class="slider-items">
+                                    <div class="slider-item active">
+                                        <h3>PM 2.5</h3>
+                                        <span class="pm2_5">-- µg/m³</span>
+                                    </div>
+                                    <div class="slider-item">
+                                        <h3>PM 10</h3>
+                                        <span class="pm10">-- µg/m³</span>
+                                    </div>
+                                    <div class="slider-item">
+                                        <h3>CO</h3>
+                                        <span class="co">-- ppm</span>
+                                    </div>
+                                    <div class="slider-item">
+                                        <h3>CO2</h3>
+                                        <span class="co2">-- ppm</span>
+                                    </div>
+                                    <div class="slider-item">
+                                        <h3>Temperature</h3>
+                                        <span class="temperature">-- °C</span>
+                                    </div>
+                                    <div class="slider-item">
+                                        <h3>Humidity</h3>
+                                        <span class="humidity">-- %</span>
+                                    </div>
+                                    <div class="slider-item">
+                                        <h3>Air Pressure</h3>
+                                        <span class="airpressure">-- hPa</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Forecast -->
+                    <div class="weathermidbot">
+                        <div class="forecast-day" style="display: flex; justify-content: center; align-items: center;">
+                            <h3>What will tomorrow be like? (prediction)</h3>
+                        </div>
+                        <div class="forecast-details" id="forecastContainer">
+                            <!-- JavaScript เติมข้อมูลที่นี่ -->
+                        </div>
+                    </div>
+                    <!-- Duplicate Location Weather Card -->
+                    <div class="weatherrightbot">
+                        <div class="predic-card main-predic" id="main-predic">
+                            <div class="location-card">
+                                <div class="location-details">
+                                    <div class="sripatumlocation">
+                                        <h3 style="color: white;"><img src="./png/location.png" alt="">Sripatum
+                                            university
+                                        </h3>
+                                    </div>
+                                </div>
+                                <div class="tomorrow">
+                                    <h3>Tomorrow</h3>
+                                    <div><strong>Temperature:</strong> <span class='temperature-tomorrow'>--</span> °C
+                                    </div>
+                                    <div><strong>PM2.5:</strong> <span class='pm25-tomorrow'>--</span> ppm</div>
+                                    <div><strong>Rainchance:</strong> <span class='rainChance-tomorrow'>--</span> %
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
     <script type="module" src="main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </body>
 

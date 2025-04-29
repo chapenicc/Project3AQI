@@ -225,18 +225,22 @@ body {
     display: flex;
     gap: 20px; /* Adjust the gap between the cards as needed */
     margin-bottom: 20px;
+
+
 }
 
 .weather-card {
-    flex: 1 1 300px;
-    min-width: 300px;
-    padding: 20px;
-    border-radius: 10px;
-    background: #f8f9fa;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    margin-bottom: 20px;
-    position: relative;
+
+    width: 50%;
+    height: auto;
+    border: 2px solid #ccc;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    transform-origin: center center;
+}
+.weather-card h3 {
+    font-size: 20px;
+    color: #333;
 }
 .weather-bg img {
     position: absolute;
@@ -248,19 +252,39 @@ body {
     opacity: 0.3;
     z-index: -1;
 }
-/* CSS: กำหนด background ตามแต่ละคลาส */
+/* ปุ่มขวาบน ในbox */
+
+.chart-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .chart-buttons button {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #123458;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .chart-buttons button:hover {
+    background-color: #0e2e4a;
+  }
+  
+  .chart-buttons button.active {
+    background-color: #D4C9BE;
+    color: #030303;
+    transform: scale(1.05);
+  }
 
 /* ——— CSS แยกแต่ละกรณี ตามคลาส ——— */
-.weather-card.main-weather {
-    background-image: url('./png/weatherwarm.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    padding: 20px;
-    color: white;
-  }
   
   
 /* Main Weather Card */
@@ -268,6 +292,13 @@ body {
     grid-column: 1;
     grid-row: 1;
     flex: 1;
+}
+
+.weather-card {
+    background-image: url('./png/weatherwarm.png');
+    background-position: center;
+    background-repeat: no-repeat;
+
 }
 
 .weather-details {
@@ -399,19 +430,13 @@ body {
 }
 
 .map-container {
-    position: relative;
-    width: 800px;
-    height: 600px;
-    margin: 20px auto;
+    /* width: 800px; */
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 100%;
     border: 2px solid #ccc;
     overflow: hidden;
-    transition: transform 0.3s ease;
-    transform-origin: center center;
-  }
-
-  /* เมื่อมีคลาส .zoomed จะซูมภาพขึ้นเล็กน้อย */
-  .map-container.zoomed {
-    transform: scale(1.1);
   }
 
   .campus-map {
@@ -670,10 +695,7 @@ body {
     background-color: #ffffff;
 }
 
-.weather-card h3 {
-    font-size: 20px;
-    color: #333;
-}
+
 .pictere-leftbot {
 flex: 1 1 300px;
 flex-basis: 20%;
@@ -691,28 +713,41 @@ box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 .leftbotafont{
     color: white;
 }
-.bgleftbota
-{
-    background-image: url('./png/Town.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;  /* ป้องกันการซ้ำ */
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    color: white;
-    flex-basis: 60%;
-    width: 100%;  /* ขยายเต็ม container */
-    height: 100%; /* ป้องกัน background ไม่เต็ม */
-    min-height: 200px; /* ป้องกันไม่ให้ block หดเกินไป */
+
+.background-text-building{
+    display: flex;
+    
+    padding: 12px;
+    width: 100%;
+    justify-content: center;
+align-content: center;
+}
+.text-building{
+    background-color: #f0f4f8;
+    border-radius: 60px;
+    width: 200px;
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 50px;
 }
 .leftbota{
 flex: 1;
+width: 100%;
 min-width: 300px;
-height: 65%;
+min-height: 200px; /* ป้องกันไม่ให้ block หดเกินไป */
+
+height: 60%;
 border-radius: 10px;
 background: #ffffff;
 box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);   
 margin-bottom: 20px;
+background-image: url('./png/Town.png');
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;  /* ป้องกันการซ้ำ */
+justify-content: center;
+align-content: center;
+
 }
 
 /* กล่องซ้ายล่าง */
@@ -882,7 +917,75 @@ max-width: calc(33% - 10px);
     align-items: center;
     margin-top: 100px;
   }
+  
+  .graph {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding-top: 30px;
+    justify-content: center;
+    height: auto;
+}
 
+  
+  .forecast-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  
+  .forecast-item {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+  }
+  
+  .forecast-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .forecast-item img {
+    width: 50px;
+    margin: 10px 0;
+  }
+  
+  .forecast-item span {
+    display: block;
+    margin-top: 8px;
+    font-size: 1rem;
+  }
+  
+  .forecast-item strong {
+    color: #0077cc;
+  }
+  
+  .chart-section {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    max-width: 1500px; /* ลองกำหนดขนาดที่เหมาะสม */
+  width: 100%;
+
+  }
+ 
+  canvas {
+    width: 100% !important;
+    height: 100% !important;
+    margin-top: 10px;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+
+  
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -894,25 +997,7 @@ max-width: calc(33% - 10px);
     }
 }
 
-/* Media Queries for Responsiveness */
-@media (min-width: 1024px) {
 
-    .weather-content {
-        display: flex;
-        flex-direction: row;
-        gap: 5px; /* Adjust gap between items */
-    }
-    .weather-stats{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 150px;
-        gap: 10px; /* Adjust gap between items */
-    }
-    .dashboard-container {
-      grid-template-columns: 200px 1fr; /* ย่อตัว Sidebar ลงเล็กน้อย */
-    }
-  }
 /* --- Tablet (≤1024px) --- */
 @media (max-width: 1024px) {
     .weather-content {
@@ -928,6 +1013,14 @@ max-width: calc(33% - 10px);
     }
     .dashboard-container {
       grid-template-columns: 200px 1fr; /* ย่อตัว Sidebar ลงเล็กน้อย */
+    }
+    .weather-card {
+        width: 50%;
+        height: auto;
+    }
+    .main-right{
+        display: flex;
+        flex-direction: column;
     }
   }
 
@@ -962,7 +1055,14 @@ max-width: calc(33% - 10px);
         padding: 10px 0;
         scroll-snap-type: x mandatory;
     }
-
+    .map-container{
+        width: 100%;
+        height: auto;
+    }
+    .weather-card {
+        width: 100%;
+        height: 400px;
+    }
 }
 
 
@@ -970,6 +1070,14 @@ max-width: calc(33% - 10px);
     body {
         display: flex;
         flex-direction: row;
+    }
+    .map-container{
+        width: 100%;
+        height: auto;
+    }
+    .weather-card {
+        width: 100%;
+        height: auto;
     }
     
     .weathermidbot{
@@ -997,5 +1105,29 @@ max-width: calc(33% - 10px);
         padding: 10px 0;
         scroll-snap-type: x mandatory;
     }
+    .weather-content {
+      padding: 10px;
+    }
+
+    .weather-card {
+      width: 100%;
+    }
+
+    .map-container {
+      width: 100%;
+    }
+
+    .campus-map {
+      width: 100%;
+      height: 200px; /* กำหนดความสูงแผนที่ */
+      background-color: #e0e0e0; /* ตัวอย่างสี */
+    }
+
+    .sripatumlocation img {
+      width: 40px; /* รูปขนาดเท่ากัน */
+      height: 40px;
+    }
+    
+    
 
 }

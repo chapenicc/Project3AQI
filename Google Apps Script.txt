@@ -1,0 +1,94 @@
+function importFirebaseDataFromURL() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1");
+  sheet.clear(); // ล้างข้อมูลเก่า
+  let row = 1;
+
+  // --- ดึงข้อมูลจาก Firebase ---
+  const firebaseUrl = 'https://air-qulity-in-u-default-rtdb.asia-southeast1.firebasedatabase.app/.json';
+  const response = UrlFetchApp.fetch(firebaseUrl);
+  const jsonData = JSON.parse(response.getContentText());
+
+  //รับค่า realtime
+   const pm25 = jsonData.realtime.pm2_5;
+  
+  // **ชื่อกลุ่มข้อมูล**
+  sheet.getRange(row, 1).setValue("Historical Sensors Data");
+  row++;
+
+  // **สร้าง Header**
+  const headers = [
+    "Date", "Time", "Air Pressure", "CO", "CO2", "HCHO", "Humidity",
+    "PM10", "PM1.0", "PM2.5", "Temp", "Wind Speed", "NH3", "NOx", "O3",
+    "Rain Analog", "Rain Chance", "Rain Detected"
+  ];
+  sheet.getRange(row, 1, 1, headers.length).setValues([headers]);
+  row++;
+
+  // **วนลูปตามวันที่**
+  Object.keys(jsonData.records).forEach(date => {
+    const dayData = jsonData.records[date]; // ข้อมูลของแต่ละวัน
+
+    // **วนลูปตามเวลา**
+    Object.keys(dayData.sensors).forEach(time => {
+      const sensor = dayData.sensors[time]; // ข้อมูลเซ็นเซอร์ของเวลานั้นๆ
+      const rowData = [
+        date,
+        time,
+        sensor.airpressure || "",   // Air Pressure
+        sensor.co || "",            // CO
+        sensor.co2 || "",           // CO2
+        sensor.humidity || "",      // Humidity
+        sensor.pm10 || "",          // PM10
+        sensor.pm1 || sensor.pm1_0 || "", // PM1.0
+        sensor.pm2_5 || "",         // PM2.5
+        sensor.temperature || sensor.temp || "", // Temperature
+        sensor.windspeed || "",     // Wind Speed
+        sensor.nh3 || "",           // NH3
+        sensor.nox || "",           // NOx
+        sensor.o3 || "",            // O3
+        sensor.rainAnalog || "",    // Rain Analog
+        sensor.rainChance || "",    // Rain Chance
+        sensor.rainDetected || ""   // Rain Detected
+      ];
+      sheet.getRange(row, 1, 1, rowData.length).setValues([rowData]);
+      row++;
+       
+    });
+  });
+  if(pm25>50) sendLineNotification(pm25)
+  
+  SpreadsheetApp.getActiveSpreadsheet().toast("✅ Data Imported from Firebase!");
+ 
+}
+
+function sendLineNotification(pm25) {
+  var accessToken = 'zqNo1ErKttfwbNMgznzmslZHgIWmrdNEh0LGWQxz01fV12kqsupj5AsecVGV2tjTtFqPAQedht4lWskMKi9V0loLlFaPwkvLce3U3cXHXj+Tf5oEvcTrBXzv9xBcgVS/s79+KTZLNGZZzwIEV07EiAdB04t89/1O/w1cDnyilFU=';  // ใส่ Channel Access Token ที่ได้จาก LINE Developer Console
+  var userId = 'U57fe4d3eb164e02c43a82499798b2bcb';     // ใส่ User ID หรือ Group ID ที่ต้องการส่งข้อความไป
+var message = `⚠️ แจ้งเตือน! ค่า PM2.5 อยู่ที่ ${pm25} µg/m³ ซึ่งอยู่ในระดับอันตราย โปรดหลีกเลี่ยงกิจกรรมกลางแจ้ง`;
+  
+  var url = 'https://api.line.me/v2/bot/message/push';
+  
+  var payload = JSON.stringify({
+    to: userId,
+    messages: [{
+      type: 'text',
+      text: message
+    }]
+  });
+  
+  var options = {
+    'method': 'post',
+    'headers': {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + accessToken
+    },
+    'payload': payload
+  };
+  
+  try {
+    var response = UrlFetchApp.fetch(url, options);
+    Logger.log(response.getContentText());  // ใช้เพื่อดูผลลัพธ์จากการเรียก API
+  } catch (e) {
+    Logger.log('Error: ' + e.message);  // ถ้ามีข้อผิดพลาด จะพิมพ์ข้อความใน Logger
+  }
+}
