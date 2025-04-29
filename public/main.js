@@ -20,7 +20,6 @@ async function displayTomorrowValues() {
     const { forecast } = await getTomorrowForecast();
     console.log("Tomorrow forecast:", forecast);
 
-    // mapping selectors กับ keys
     const mapping = [
       { selector: ".pm25-tomorrow", key: "pm25" },
       { selector: ".rainChance-tomorrow", key: "rainChance" },
@@ -34,7 +33,6 @@ async function displayTomorrowValues() {
       el.textContent = typeof raw === "number" ? raw.toFixed(1) : "--";
     });
 
-    // เปลี่ยนคลาสพื้นหลังของการ์ดหลัก
     const container = document.querySelector(".predic-card.main-predic");
     if (container) {
       container.classList.remove("sunny", "rainy", "cloudy", "hot", "cold");
@@ -49,42 +47,7 @@ async function displayTomorrowValues() {
   }
 }
 
-// เมื่อโหลดหน้า และเรียกใช้งานฟังก์ชันต่างๆ
-window.addEventListener("load", () => {
-  FindSensors(); // ดึงข้อมูลเซนเซอร์เรียลไทม์
-  LoadForecast(); // ดึงพยากรณ์ 5 วัน
-  startSensorSlider(); // สไลด์เซนเซอร์ (ถ้ามี)
-  displayTomorrowValues(); // ดึงและอัปเดตค่าพรุ่งนี้ + background
-});
-
-// --- โค้ดเดิมส่วนอื่นๆ ไม่เปลี่ยน ---
-document.addEventListener("DOMContentLoaded", () => {
-  const mapContainer = document.getElementById("mapContainer");
-  const campusMap = document.getElementById("campusMap");
-  const infoBox = document.getElementById("infoBox");
-
-  document.querySelectorAll(".hotspot").forEach((hot) => {
-    hot.addEventListener("click", (e) => {
-      infoBox.textContent = `${hot.dataset.name}: ${hot.dataset.info}`;
-      infoBox.hidden = false;
-      const rect = mapContainer.getBoundingClientRect();
-      infoBox.style.transform = `translate(${e.clientX - rect.left}px, ${
-        e.clientY - rect.top
-      }px)`;
-      const x = e.clientX - rect.left,
-        y = e.clientY - rect.top;
-      campusMap.style.transformOrigin = `${x}px ${y}px`;
-      campusMap.classList.add("zoomed");
-      setTimeout(() => campusMap.classList.remove("zoomed"), 600);
-    });
-  });
-});
-
-function getDayLabel(dateString) {
-  const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-  return days[new Date(dateString).getDay()];
-}
-
+// โหลดพยากรณ์ 5 วัน และแสดงการ์ด
 export async function LoadForecast() {
   const fc = document.getElementById("forecastContainer");
   if (!fc) return;
@@ -121,26 +84,32 @@ export async function LoadForecast() {
     }
   });
 }
-function afterLoadForecast() {
-  const items = document.querySelectorAll("#forecastContainer .forecast-item");
+
+// 📈 โหลดข้อมูลใหม่เฉพาะตอนจะวาดกราฟ
+async function LoadForecastForGraph() {
+  const data = await getNext5DaysForecast();
 
   const labels = [];
   const temps = [];
   const pm25s = [];
 
-  items.forEach((item) => {
-    const dayLabel = item.querySelector("span strong")?.innerText || "";
+  data.forEach(({ date, forecast }) => {
+    const dayLabel = getDayLabel(date);
     labels.push(dayLabel);
 
-    const tempText = item.querySelectorAll("span")[1]?.innerText || "0°C";
-    const tempValue = parseFloat(tempText.replace("°C", ""));
-    temps.push(tempValue);
+    const temp = forecast?.temperature ?? 0;
+    const pm25 = forecast?.pm25 ?? 0;
 
-    const pm25Text = item.querySelectorAll("span")[2]?.innerText || "PM2.5: 0 µg/m³";
-    const pm25Value = parseFloat(pm25Text.replace("PM2.5: ", "").replace("µg/m³", ""));
-    pm25s.push(pm25Value);
-    
+    temps.push(temp);
+    pm25s.push(pm25);
   });
+
+  return { labels, temps, pm25s };
+}
+
+// สร้างกราฟแบบดีที่สุด
+async function afterLoadForecast() {
+  const { labels, temps, pm25s } = await LoadForecastForGraph();
 
   const chartCanvas = document.getElementById("mainChart");
   let chart;
@@ -148,6 +117,14 @@ function afterLoadForecast() {
   function createChart(type, label, data, borderColor, bgColor) {
     const ctx = chartCanvas.getContext("2d");
     if (chart) chart.destroy();
+
+    // หาค่า min/max ของข้อมูล
+    const min = Math.min(...data);
+    const max = Math.max(...data);
+    const buffer = (max - min) * 0.1 || 1; // กันกรณี max-min = 0
+    const suggestedMin = min - buffer;
+    const suggestedMax = max + buffer;
+
     chart = new Chart(ctx, {
       type: type,
       data: {
@@ -157,12 +134,14 @@ function afterLoadForecast() {
           data: data,
           borderColor: borderColor,
           backgroundColor: bgColor,
-          tension: 0.4,
+          tension: type === "line" ? 0.3 : 0.4,
           fill: true,
           pointBackgroundColor: "white",
           pointBorderColor: borderColor,
           pointRadius: 5,
           pointHoverRadius: 7,
+          categoryPercentage: type === "bar" ? 0.6 : undefined,
+          barPercentage: type === "bar" ? 0.6 : undefined,
         }]
       },
       options: {
@@ -171,6 +150,8 @@ function afterLoadForecast() {
         scales: {
           y: {
             beginAtZero: type === "bar",
+            suggestedMin: type === "line" ? suggestedMin : 0,
+            suggestedMax: type === "line" ? suggestedMax : undefined,
             grid: { color: "rgba(0,0,0,0.05)" },
             ticks: {
               color: "#030303",
@@ -204,7 +185,6 @@ function afterLoadForecast() {
     });
   }
 
-  // ช่วยกำหนดปุ่ม active (ให้ปุ่มเปลี่ยนสี)
   function setActiveButton(buttonId) {
     document.querySelectorAll(".chart-buttons button").forEach((btn) =>
       btn.classList.remove("active")
@@ -212,7 +192,6 @@ function afterLoadForecast() {
     document.getElementById(buttonId).classList.add("active");
   }
 
-  // ปุ่มสลับกราฟ
   document.getElementById("btnTemp").addEventListener("click", () => {
     createChart(
       "line",
@@ -235,7 +214,6 @@ function afterLoadForecast() {
     setActiveButton("btnPM25");
   });
 
-  // ค่าเริ่มต้น: แสดงกราฟอุณหภูมิ
   createChart(
     "line",
     "Temperature (°C)",
@@ -246,19 +224,17 @@ function afterLoadForecast() {
   setActiveButton("btnTemp");
 }
 
-
-// --- เพิ่ม start() ---
+// ==== โหลดทุกอย่างตอนเข้าเว็บ ====
 async function start() {
+  FindSensors();
   await LoadForecast();
   afterLoadForecast();
+  startSensorSlider();
+  displayTomorrowValues();
 }
-
-// --- เรียก start() ตอนเริ่ม ---
 start();
-function formatNumber(value) {
-  return typeof value === "number" ? value.toFixed(2) : "--";
-}
 
+// ==== ฟังก์ชันเสริม ====
 function pickIcon(item) {
   if (!item || typeof item !== "object") return "unknown";
   const temp = item.temperature ?? 0;
@@ -271,7 +247,11 @@ function pickIcon(item) {
   return "sunny";
 }
 
-// slider //
+function getDayLabel(dateString) {
+  const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+  return days[new Date(dateString).getDay()];
+}
+
 function startSensorSlider(ms = 3000) {
   const items = document.querySelectorAll(".slider-item");
   if (!items.length) return;
@@ -293,10 +273,3 @@ if (slider) {
     items[currentIndex].classList.add("active");
   });
 }
-
-window.addEventListener("load", () => {
-  FindSensors();
-  LoadForecast();
-  startSensorSlider(); // (ถ้ามี slider)
-  displayTomorrowValues();
-});
